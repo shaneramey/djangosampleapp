@@ -1,0 +1,22 @@
+web: # web container
+  build: .  # this just says you want to build your project directory
+  environment:
+    - MYSQL_DATABASE=djangosampleapp
+    - MYSQL_USER=djangosampleapp
+    - MYSQL_PASSWORD=password
+  ports:
+    - 8191:8000  # these are specified as your-laptop:your-container
+  volumes:
+    - .:/djangosampleapp/  # mount my local directory into the container so i can edit!
+  links:
+    - database:database  # allow your web container to see your database container
+
+database: # database container
+  image: mysql:5.7.17
+  ports:
+    - 3307:3306
+  environment:
+    - MYSQL_ROOT_PASSWORD=rootpassword
+    - MYSQL_DATABASE=djangosampleapp
+    - MYSQL_USER=djangosampleapp
+    - MYSQL_PASSWORD=password
